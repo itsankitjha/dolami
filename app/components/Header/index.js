@@ -71,53 +71,27 @@ const categories = [
   { value: "Fashion", label: "Fashion" },
 ];
 
-const subcategories = {
-  Avatars: [
-    { value: "Human-like", label: "Human-like" },
-    { value: "Anthro & Furry", label: "Anthro & Furry" },
-    { value: "Robot & Cyborgs", label: "Robot & Cyborgs" },
-  ],
-  Fashion: [
-    { value: "Clothes", label: "Clothes" },
-    { value: "Accessories", label: "Accessories" },
-  ],
-};
-
-export default function Header({ setFilteredProducts }) {
+export default function Header({ setFilteredProducts, showSearch = true }) {
   const [category, setCategory] = useState("All");
-  const [subcategory, setSubcategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
     setCategory(selectedCategory);
-    setSubcategory(""); // Reset subcategory when category changes
-    filterProducts(selectedCategory, ""); // Reset filtered products
-  };
-
-  const handleSubcategoryChange = (event) => {
-    const selectedSubcategory = event.target.value;
-    setSubcategory(selectedSubcategory);
-    filterProducts(category, selectedSubcategory);
+    filterProducts(selectedCategory, searchTerm);
   };
 
   const handleSearchChange = (event) => {
     const value = event.target.value;
     setSearchTerm(value);
-    filterProducts(category, subcategory, value);
+    filterProducts(category, value);
   };
 
-  const filterProducts = (category, subcategory, searchTerm = "") => {
+  const filterProducts = (category, searchTerm = "") => {
     let filtered = originalProducts;
 
     if (category && category !== "All") {
       filtered = filtered.filter((product) => product.category === category);
-    }
-
-    if (subcategory) {
-      filtered = filtered.filter(
-        (product) => product.subcategory === subcategory
-      );
     }
 
     if (searchTerm) {
@@ -155,49 +129,36 @@ export default function Header({ setFilteredProducts }) {
           </Box>
         </Typography>
 
-        <Search sx={{ mb: { xs: 2, sm: 0 } }}>
-          <StyledInputBase
-            placeholder="Search Products"
-            inputProps={{ "aria-label": "search" }}
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-          <CategorySelect
-            value={category}
-            onChange={handleCategoryChange}
-            displayEmpty
-            inputProps={{ "aria-label": "category" }}
-            sx={{ color: "#ffffff" }}
-          >
-            {categories.map((cat) => (
-              <MenuItem
-                key={cat.value}
-                value={cat.value}
-                sx={{ color: "#ffffff" }}
-              >
-                {cat.label}
-              </MenuItem>
-            ))}
-          </CategorySelect>
-          {/* <CategorySelect
-            value={subcategory}
-            onChange={handleSubcategoryChange}
-            displayEmpty
-            inputProps={{ "aria-label": "subcategory" }}
-            sx={{ color: "#ffffff" }}
-          >
-            <MenuItem value="">Select Subcategory</MenuItem>
-            {subcategory &&
-              subcategories[category]?.map((sub) => (
-                <MenuItem key={sub.value} value={sub.value}>
-                  {sub.label}
+        {showSearch && (
+          <Search sx={{ mb: { xs: 2, sm: 0 } }}>
+            <StyledInputBase
+              placeholder="Search Products"
+              inputProps={{ "aria-label": "search" }}
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            <CategorySelect
+              value={category}
+              onChange={handleCategoryChange}
+              displayEmpty
+              inputProps={{ "aria-label": "category" }}
+              sx={{ color: "#ffffff" }}
+            >
+              {categories.map((cat) => (
+                <MenuItem
+                  key={cat.value}
+                  value={cat.value}
+                  sx={{ color: "#ffffff" }}
+                >
+                  {cat.label}
                 </MenuItem>
               ))}
-          </CategorySelect> */}
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-        </Search>
+            </CategorySelect>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+          </Search>
+        )}
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <IconButton color="inherit">

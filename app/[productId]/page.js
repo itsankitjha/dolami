@@ -10,17 +10,22 @@ import {
   Divider,
   CircularProgress,
   IconButton,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useRouter } from "next/navigation"; // Import the useRouter hook
-
 import { products } from "@/app/data/product.js"; // Import the products data
 import { ArrowBack } from "@mui/icons-material";
+import Header from "@/app/components/Header"; // Import the Header component
 
 const ProductDetails = () => {
+  const theme = useTheme();
   const [productId, setProductId] = useState("");
   const [loading, setLoading] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
   const router = useRouter(); // Initialize the router
+
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     const url = window.location.href;
@@ -56,6 +61,10 @@ const ProductDetails = () => {
 
   return (
     <Container maxWidth="md" sx={{ padding: { xs: 3, sm: 4 } }}>
+      <div style={{ marginBottom: isMobile ? 170 : 64 }}>
+        <Header setFilteredProducts={() => {}} showSearch={false} />
+      </div>
+      {/* Render Header without search section */}
       {product && (
         <Box
           sx={{

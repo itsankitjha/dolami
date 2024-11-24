@@ -75,9 +75,7 @@ export default function ProductCard({
   const router = useRouter();
 
   const handleCardClick = () => {
-    if (router) {
-      router.push(`/${productId}`); // Navigate to the product details page
-    }
+    router.push(`/${productId}`); // Navigate to the product details page directly
   };
 
   return (
