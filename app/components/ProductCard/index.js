@@ -8,6 +8,7 @@ import {
   Box,
   Rating,
   Link,
+  Button,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useRouter } from "next/navigation";
@@ -79,11 +80,7 @@ export default function ProductCard({
   };
 
   return (
-    <StyledCard
-      elevation={0}
-      onClick={handleCardClick}
-      sx={{ cursor: "pointer" }}
-    >
+    <StyledCard elevation={0} sx={{ cursor: "pointer" }}>
       <StyledCardMedia>
         <CategoryText variant="body2">
           {category}
@@ -103,6 +100,20 @@ export default function ProductCard({
           <Typography variant="body2">{rating.toFixed(1)}</Typography>
         </Box>
         <PriceText variant="subtitle1">$ {price.toFixed(2)}</PriceText>
+        <Box display="flex" justifyContent="flex-end" width="100%">
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#f5f5f5",
+              color: "#333",
+              fontSize: "0.8rem",
+              padding: "0.5rem 1rem",
+            }}
+            onClick={handleCardClick}
+          >
+            View Details
+          </Button>
+        </Box>
       </CardContent>
     </StyledCard>
   );
